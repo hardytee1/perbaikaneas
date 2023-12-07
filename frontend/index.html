@@ -82,7 +82,6 @@
         },
         sendMessage() {
           this.messages.push({ sender: this.currentUser, content: this.message });
-          // Here, you would send the message to the server for storage and broadcasting.
           this.message = '';
         },
         logout() {
