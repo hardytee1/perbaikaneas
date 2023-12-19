@@ -5,6 +5,7 @@ import SignupForm from '../views/SignupForm.vue'
 import LogoutPage from '../views/LogoutPage.vue'
 import ChatPage from '../views/ChatPage.vue'
 import JoinGroup from '../views/JoinGroup.vue'
+import PrivateChat from '../views/PrivateChat.vue'
 
 const routes = [
   {
@@ -37,6 +38,11 @@ const routes = [
     path: '/joingroup',
     name: 'joingroup',
     component: JoinGroup
+  },
+  {
+    path: '/privatechat/:groupId',
+    name: 'privatechat',
+    component: PrivateChat
   },
 ]
 

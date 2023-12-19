@@ -1,10 +1,10 @@
 import localLogin from "payload/dist/auth/operations/local/login";
 import { CollectionConfig } from "payload/types";
 
-const Groups: CollectionConfig = {
-  slug: "groups",
+const Friends: CollectionConfig = {
+  slug: "friends",
   admin: {
-    useAsTitle: "groups",
+    useAsTitle: "friends",
   },
   access: {
     create: () => true,
@@ -14,7 +14,7 @@ const Groups: CollectionConfig = {
   },
   fields: [
     {
-      name: "groupName",
+      name: "friendName",
       type: "text",
       required: true,
     },
@@ -49,4 +49,4 @@ const Groups: CollectionConfig = {
   ],
 };
 
-export default Groups;
+export default Friends;

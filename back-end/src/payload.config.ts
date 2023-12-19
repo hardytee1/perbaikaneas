@@ -8,6 +8,7 @@ import { buildConfig } from "payload/config";
 
 import Users from "./collections/Users";
 import Groups from "./collections/Groups";
+import Friends from "./collections/Friends";
 
 export default buildConfig({
   admin: {
@@ -17,7 +18,7 @@ export default buildConfig({
   cors: ["http://localhost:8080"],
   csrf: ["http://localhost:8080"],
   editor: slateEditor({}),
-  collections: [Users, Groups],
+  collections: [Users, Groups, Friends],
   typescript: {
     outputFile: path.resolve(__dirname, "payload-types.ts"),
   },
