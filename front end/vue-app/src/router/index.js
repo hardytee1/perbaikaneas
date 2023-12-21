@@ -40,7 +40,7 @@ const routes = [
     component: JoinGroup
   },
   {
-    path: '/privatechat/:groupId',
+    path: '/privatechat',
     name: 'privatechat',
     component: PrivateChat
   },

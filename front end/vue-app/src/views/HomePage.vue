@@ -7,24 +7,22 @@
       <button @click="logout">Logout</button>
     </div>
     <form @submit.prevent="CreateGroup">
-      <label for="groupname">friend name:</label>
+      <label for="groupname">Group name:</label>
       <input type="text" id="groupname" v-model="groupname" required />
 
-      <button type="submit">Create private chat</button>
+      <button type="submit">Create group</button>
     </form>
-    <h2>Go to an existing chat ? <router-link to="/JoinGroup">Here!!!</router-link></h2>
-    <br>
+    <h2>Go to an existing group ? <router-link to="/joingroup">Here!!!</router-link></h2>
+    <h2>Go to PRIVATE CHAT ? <router-link to="/privatechat">Here!!!</router-link></h2>
   </div>
 </template>
 
 <script>
-
 export default {
   data() {
     return {
       groupname: "",
       userID: "",
-      userEMAIL: "",
     };
   },
   mounted() {
@@ -32,12 +30,10 @@ export default {
     this.getuserid();
   },
   methods: {
-
     async getuserid() {
     try {
       // Assuming you have the groupId available as a prop
       const groupId = this.groupId;
-
       // Fetch the group data from the API
       const response = await fetch(`http://localhost:3000/api/users/me`, {
         method: "GET",
@@ -46,17 +42,13 @@ export default {
           "Content-Type": "application/json",
         },
       });
-
       if (response.status === 401) {
         console.error("Unauthorized: Invalid credentials");
       } else if (response.ok) {
         const Data = await response.json();
         this.userID = Data.user.id;
-        this.userEMAIL = Data.user.email;
           // Log the received data for verification
         console.log("User Id:", this.userID);
-        console.log("User email:", this.userEMAIL);
-
       } else {
         console.error("Error fetching group data");
       }
@@ -73,7 +65,6 @@ export default {
             "Content-Type": "application/json",
           },
         });
-
         if (res.status === 401) {
           console.error("Unauthorized: Invalid credentials");
         } else {
@@ -86,82 +77,8 @@ export default {
         console.error("Error:", error);
       }
     },
-    
-
     async CreateGroup() {
       try {
-
-        const groupsResponse = await fetch("http://localhost:3000/api/groups", {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        if (groupsResponse.status === 401) {
-          console.error("Unauthorized: Invalid credentials");
-          return;
-        }
-
-        if (!groupsResponse.ok) {
-          console.error("Error fetching all groups");
-          return;
-        }
-
-        const groupsData = await groupsResponse.json();
-
-        if (groupsData.docs && Array.isArray(groupsData.docs)) {
-          // Find the target group by group name
-          const targetGroup = groupsData.docs.find((group) => group.groupName === this.userEMAIL);
-
-          if (!targetGroup) {
-            console.error(`Group with name '${this.groupName}' not found`);
-            
-          }
-          else{
-
-          console.log("this is group id", targetGroup.id);
-
-          // Store group members in the data property
-          this.groupMembers = targetGroup.members.map((member) => member.member.id);
-          
-          console.log("Group members:", this.groupMembers);
-
-          if (!this.groupMembers.includes(this.userID)) {
-            this.groupMembers.push(this.userID);
-            console.log("New member added to the group:", this.userID);
-          } else {
-            console.log("User is already a member of the group:", this.userID);
-          }
-        const updateGroupResponse = await fetch(`http://localhost:3000/api/groups/${targetGroup.id}`, {
-          method: "PATCH",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            members: this.groupMembers.map(memberId => ({ member: memberId })),
-          }),
-        });
-
-        if (updateGroupResponse.status === 401) {
-          console.error("Unauthorized: Invalid credentials");
-          return;
-        }
-
-        if (!updateGroupResponse.ok) {
-          console.error("Error updating group members");
-          return;
-        } else{
-          this.$router.push(`/chat/${targetGroup.id}`);
-          console.log("Group members in the server");
-          return;
-        }
-      }
-
-      }
-        console.log("fetch in rpogress")
         const res = await fetch("http://localhost:3000/api/groups", {
           method: "POST",
           credentials: "include",
@@ -177,14 +94,12 @@ export default {
             ],
           }),
         });
-
         if (res.status === 401) {
           console.error("Unauthorized: Invalid credentials");
         } else {
           const json = await res.json();
           console.log(json);
           // Use Vue Router to navigate to the dashboard route
-
           const groupId = json.doc.id;
           this.$router.push(`/chat/${groupId}`);
         }
@@ -195,7 +110,6 @@ export default {
   },
 };
 </script>
-
 <style scoped>
 .home-container {
   max-width: 800px;
@@ -205,14 +119,12 @@ export default {
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
 }
-
 button {
   padding: 8px;
   background-color: #dc3545;
@@ -221,16 +133,13 @@ button {
   border-radius: 5px;
   cursor: pointer;
 }
-
 .chat-list {
   display: flex;
   flex-direction: column;
 }
-
 div {
   box-sizing: border-box;
 }
-
 .avatar {
   width: 40px;
   height: 40px;
@@ -243,20 +152,16 @@ div {
   font-size: 18px;
   margin-right: 10px;
 }
-
 .details {
   flex-grow: 1;
 }
-
 .contact-name {
   font-weight: bold;
   font-size: 16px;
 }
-
 .last-message {
   color: #555;
 }
-
 div:hover {
   background-color: #f8f9fa;
   cursor: pointer;

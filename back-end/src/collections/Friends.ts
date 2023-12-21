@@ -14,38 +14,20 @@ const Friends: CollectionConfig = {
   },
   fields: [
     {
-      name: "friendName",
+      name: "Sender",
       type: "text",
       required: true,
     },
     {
-      name: "members",
-      type: "array",
-      required: true,
-      fields: [
-        {
-          name: "member",
-          type: "relationship",
-          relationTo: "users",
-          required: true,
-        },
-      ],
-    },
-    {
-      name: "chats",
-      type: "array",
-      fields: [
-        {
-          name: "chat",
-          type: "text",
-        },
-        {
-          name: "chatwho",
-          type: "relationship",
-          relationTo: 'users',
-        }
-      ],
-    },
+        name: "Reciever",
+        type: "text",
+        required: true,
+      },
+      {
+        name: 'content',
+        required: false,
+        type: 'text',
+      }
   ],
 };
 
